@@ -39,7 +39,7 @@ public class VisualHelperTester {
 		Node n2 = new Node(0.9,0.1);
 		Alistair a = new Alistair();
 		
-		List<List<Point2D.Double>> edges = a.createPRM(n1,n2,5000);
+		List<List<Point2D.Double>> edges = a.createPRM(n1,n2,10000);
 		ArrayList<Node> path = a.AStar(n1, n2);
 		
 		System.out.print(path);
