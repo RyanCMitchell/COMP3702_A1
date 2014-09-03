@@ -4,11 +4,17 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Set;
 
+
+
+
+import java.util.Map.Entry;
 
 import problem.ProblemSpec;
 import problem.Obstacle;
@@ -17,6 +23,8 @@ public class Alistair {
 	
 	
 	public ProblemSpec ps;
+	HashMap<Node,HashMap<Node,Double>> map;
+
 	
 //	public List<List<Point2D.Double>> createPRM(Node start, Node end, int N) {
 //		double maxEdgeDistance = 0.1;
@@ -61,10 +69,10 @@ public class Alistair {
 //	}
 	
 	public List<List<Point2D.Double>> createPRM(Node start, Node end, int N) {
-		double maxEdgeDistance = 0.02;
+		double maxEdgeDistance = 0.025;
 		
-		HashMap<Node,HashMap<Node,Double>> map = new HashMap<Node,HashMap<Node,Double>>();
-	
+		map = new HashMap<Node,HashMap<Node,Double>>();
+		
 		
 		Random generator = new Random();
 		ps = new ProblemSpec();
@@ -78,7 +86,6 @@ public class Alistair {
 		map.put(start, new HashMap<Node,Double>());
 		map.put(end, new HashMap<Node,Double>());
 	
-		
 		boolean valid = true;
 		//graph.addVertex(newNode);
 		for(int i=0;i<N;i++) {
@@ -86,14 +93,15 @@ public class Alistair {
 			valid = true;
 			for(Obstacle o: ps.getObstacles()) {
 				if(o.getRect().contains(newNode)) {
+					//System.out.println("Point discarded");
 					valid = false;
 				}
 			}
 			if(valid) {
 				map.put(newNode,new HashMap<Node,Double>());
 				for(Node n : map.keySet()) {
-					if(newNode.getDistanceTo(n) < maxEdgeDistance) {
-						
+					if((newNode.getDistanceTo(n) < maxEdgeDistance)&&(!newNode.equals(n))) {
+						//System.out.println("Making a link");
 						boolean add = true;
 						
 						for(Obstacle o: ps.getObstacles()) {
@@ -114,10 +122,15 @@ public class Alistair {
 		}
 		List<List<Point2D.Double>> list1 = new ArrayList<List<Point2D.Double>>();
 		for(Node n: map.keySet()) {
+			List<Point2D.Double> point = new ArrayList<Point2D.Double>();
+			point.add(n.toPoint2D());
+			list1.add(point);
 			for(Node n1: map.get(n).keySet()) {
 				List<Point2D.Double> l = new ArrayList<Point2D.Double>();
 				l.add(n.toPoint2D());
 				l.add(n1.toPoint2D());
+				//System.out.println("x = " + n.getX());
+				//System.out.println("y = " + n.getY());
 				list1.add(l);
 			}
 		}
@@ -126,5 +139,66 @@ public class Alistair {
 		return list1;
 		
 	}
+	
+	
+		public ArrayList<Node> AStar(Node start, Node end) {
+			ArrayList<Node> beenTo = new ArrayList<Node>();
+			PriorityQueue<Node> pq = new PriorityQueue<Node>(1,new Comparator<Node>() {
+				public int compare(Node o1,Node o2) {
+					if(o1.getFScore()>o2.getFScore()) {
+						return 1;
+					} else if(o2.getFScore()>o1.getFScore()) {
+						return -1;
+					} else {
+						return 0;
+					}
+				} 
+			});
 			
+			HashMap<Node,Node> cameFrom = new HashMap<Node,Node>();
+			start.FScore = start.getDistanceTo(end);
+			pq.add(start);
+			Node current;
+			double tentativeGScore;
+			
+			while(pq.size() != 0) {
+				current = pq.remove();
+				if(current.equals(end)) {
+					System.out.print("We made it!");
+					return reconstructPath(cameFrom, end, start); //LOOK HERE
+				}
+				beenTo.add(current);
+				for(Node edgeDestination: map.get(current).keySet()) {
+					if(beenTo.contains(edgeDestination)) {
+						//Do nothing BUT MAYBE SOMETHING LATER
+					} else {
+						 tentativeGScore = current.getGScore() + map.get(current).get(edgeDestination);
+						 
+						 if((pq.contains(edgeDestination)!= true)||tentativeGScore < edgeDestination.getGScore()) {
+							 edgeDestination.GScore = tentativeGScore;
+							 edgeDestination.FScore = edgeDestination.GScore + edgeDestination.getDistanceTo(end);
+							 cameFrom.put(edgeDestination, current);
+							 if(pq.contains(edgeDestination)!= true) {
+								 pq.add(edgeDestination);
+							 }
+						 }
+					}
+				}
+			}
+			System.out.print("Couldn't get there!!!!!");
+			return new ArrayList<Node>();
+		}
+		
+		public ArrayList<Node> reconstructPath(HashMap<Node,Node> cameFrom, Node currentNode, Node start) {
+			Node newNode = currentNode;
+			
+			ArrayList<Node> path = new ArrayList<Node>();
+			while(!newNode.equals(start)) {
+				path.add(0, newNode);
+				newNode = cameFrom.get(newNode);
+				
+			}
+			path.add(0,start);
+			return path;
+		}
 }

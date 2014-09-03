@@ -1,13 +1,13 @@
 package solution;
 
 import java.awt.geom.Point2D;
-import org.jgrapht.*;
 
 
 public class Node extends Point2D{
 	double x;
 	double y;
-	double weight;
+	double GScore;
+	double FScore;
 	double startToNode;
 	double endToNode;
 	boolean startNode;
@@ -16,7 +16,8 @@ public class Node extends Point2D{
 	public Node(double x, double y) {
 		this.x = x;
 		this.y = y;
-		weight = 0;
+		GScore = 0;
+		FScore = 0;
 		
 	}
 
@@ -39,8 +40,17 @@ public class Node extends Point2D{
 		this.y = y;
 	}
 	
-	public double getWeight() {
-		return weight;
+	public double getGScore() {
+		return GScore;
+	}
+	
+	public double getFScore() {
+		return FScore;
+	}
+	
+	@Override
+	public String toString() {
+		return this.x + "," + this.y;
 	}
 	
 	public Point2D.Double toPoint2D() {

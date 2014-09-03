@@ -9,8 +9,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.List;
 
-import org.jgrapht.graph.DefaultEdge;
-
 import problem.Obstacle;
 import solution.Alistair;
 import solution.Node;
@@ -41,7 +39,10 @@ public class VisualHelperTester {
 		Node n2 = new Node(0.9,0.1);
 		Alistair a = new Alistair();
 		
-		List<List<Point2D.Double>> edges = a.createPRM(n1,n2,6000);
+		List<List<Point2D.Double>> edges = a.createPRM(n1,n2,5000);
+		ArrayList<Node> path = a.AStar(n1, n2);
+		
+		System.out.print(path);
 		
 		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
 		for(Obstacle o: a.ps.getObstacles()) {
@@ -52,9 +53,27 @@ public class VisualHelperTester {
 
 		
 		for(List<Point2D.Double> e : edges){
-			visualHelper.addLinkedPoints(e);
-			visualHelper.addPoints(e);
+			if(e.size()== 2) {
+				//visualHelper.addLinkedPoints(e);
+			} else {
+				visualHelper.addPoints(e);
+			}
+			
 		}
+		List<Point2D.Double> l = new ArrayList<Point2D.Double>();
+		if(path.size()!= 0) {
+			l.add(path.get(0).toPoint2D());
+			l.add(path.get(0).toPoint2D());
+			visualHelper.addLinkedPoints(l);
+			for(Node n : path) {
+				l.remove(0);
+				l.add(n.toPoint2D());
+				visualHelper.addLinkedPoints(l);
+			}
+		}
+		
+		
+		
 		visualHelper.repaint();
 		
 		// Wait for user key press
