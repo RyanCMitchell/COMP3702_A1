@@ -24,49 +24,6 @@ public class Alistair {
 	
 	public ProblemSpec ps;
 	HashMap<Node,HashMap<Node,Double>> map;
-
-	
-//	public List<List<Point2D.Double>> createPRM(Node start, Node end, int N) {
-//		double maxEdgeDistance = 0.1;
-//		
-//		Random generator = new Random();
-//		ProblemSpec ps = new ProblemSpec();
-//		graph.addVertex(start);
-//		graph.addVertex(end);
-//		
-//		boolean valid = true;
-//		//graph.addVertex(newNode);
-//		for(int i=0;i<N;i++) {
-//			Node newNode = new Node(generator.nextDouble(),generator.nextDouble());
-//			valid = true;
-//			//for(Obstacle o: ps.getObstacles()) {
-//			//	if(o.getRect().contains(newNode)) {
-//			//		valid = false;
-//			//	}
-//			//}
-//			if(valid) {
-//				graph.addVertex(newNode);
-//				for(Node n : graph.vertexSet()) {
-//					if(newNode.getDistanceTo(n) < maxEdgeDistance) {
-//						graph.addEdge(newNode, n);
-//						graph.setEdgeWeight(graph.getEdge(newNode, n), newNode.getDistanceTo(n));
-//					}
-//				}
-//				
-//			}
-//		}
-//		List<List<Point2D.Double>> list1 = new ArrayList<List<Point2D.Double>>();
-//		for(DefaultEdge e: graph.edgeSet()) {
-//			List<Point2D.Double> l = new ArrayList<Point2D.Double>();
-//			l.add(graph.getEdgeSource(e).toPoint2D());
-//			l.add(graph.getEdgeTarget(e).toPoint2D());
-//			list1.add(l);
-//		}
-//		
-//		
-//		return list1;
-//		
-//	}
 	
 	public List<List<Point2D.Double>> createPRM(Node start, Node end, int N) {
 		double maxEdgeDistance = 0.025;
@@ -78,7 +35,7 @@ public class Alistair {
 		ps = new ProblemSpec();
 		
 		try{
-			ps.loadProblem("src/testcases/3ASV.txt");
+			ps.loadProblem("src/testcases/7ASV.txt");
 		} catch (IOException e) {
 			
 		}
