@@ -51,7 +51,7 @@ public class VisualHelper extends JPanel implements KeyListener {
 	 * Adds points to draw, coordinates between 0 and 1
 	 * @param input List of Point2D
 	 */
-	public void addPoints(List<Point2D> input) {
+	public void addPoints(List<Point2D.Double> input) {
 		points.addAll(input);
 	}
 	
@@ -75,7 +75,7 @@ public class VisualHelper extends JPanel implements KeyListener {
 	 * Adds a set of lines
 	 * @param input List of Point2D, the vertices 
 	 */
-	public void addLinkedPoints(List<Point2D> input) {
+	public void addLinkedPoints(List<Point2D.Double> input) {
 		linkedPoints.add(new ArrayList<Point2D>());
 		linkedPoints.get(linkedPoints.size() - 1).addAll(input);
 	}
