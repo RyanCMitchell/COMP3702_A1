@@ -41,6 +41,7 @@ public class VisualHelperTester {
 		
 		List<List<Point2D.Double>> edges = a.createPRM(n1,n2,10000);
 		ArrayList<Node> path = a.AStar(n1, n2);
+		ArrayList<Point2D.Double> corners = a.findPathCorners(path);
 		
 		System.out.print(path);
 		
@@ -56,8 +57,10 @@ public class VisualHelperTester {
 			if(e.size()== 2) {
 				//visualHelper.addLinkedPoints(e);
 			} else {
-				visualHelper.addPoints(e);
+				//visualHelper.addPoints(e);
 			}
+		
+		visualHelper.addPoints(corners);
 			
 		}
 		List<Point2D.Double> l = new ArrayList<Point2D.Double>();

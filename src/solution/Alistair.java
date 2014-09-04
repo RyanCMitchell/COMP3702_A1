@@ -158,4 +158,27 @@ public class Alistair {
 			path.add(0,start);
 			return path;
 		}
+		
+		public ArrayList<Point2D.Double> findPathCorners(ArrayList<Node> path) {
+			ArrayList<Point2D.Double> corners = new ArrayList<Point2D.Double>();
+			
+			for(Obstacle o: ps.getObstacles()) {
+				for(Node n: path) {
+					if(n.distance(o.getRect().getMinX(), o.getRect().getMinY()) < 0.05) {
+						corners.add(new Point2D.Double(o.getRect().getMinX(),o.getRect().getMinY()));
+					}
+					if(n.distance(o.getRect().getMaxX(), o.getRect().getMinY()) < 0.05) {
+						corners.add(new Point2D.Double(o.getRect().getMaxX(),o.getRect().getMinY()));
+					}
+					if(n.distance(o.getRect().getMinX(), o.getRect().getMaxY()) < 0.05) {
+						corners.add(new Point2D.Double(o.getRect().getMinX(),o.getRect().getMaxY()));
+					}
+					if(n.distance(o.getRect().getMaxX(), o.getRect().getMaxY()) < 0.05) {
+						corners.add(new Point2D.Double(o.getRect().getMaxX(),o.getRect().getMaxY()));
+					}
+				}
+ 				
+			}
+			return corners;
+		}
 }
