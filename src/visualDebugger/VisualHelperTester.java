@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.List;
 
+import problem.ASVConfig;
 import problem.Obstacle;
 import solution.Alistair;
 import solution.Node;
@@ -43,7 +44,7 @@ public class VisualHelperTester {
 		ArrayList<Node> path = a.AStar(n1, n2);
 		ArrayList<Point2D.Double> corners = a.findPathCorners(path);
 		
-		System.out.print(path);
+		//System.out.print(path);
 		
 		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
 		for(Obstacle o: a.ps.getObstacles()) {
@@ -74,7 +75,11 @@ public class VisualHelperTester {
 				visualHelper.addLinkedPoints(l);
 			}
 		}
-		
+		double[] coords = {0.1, 0.1, 0.2, 0.2, 0.3, 0.1};
+		ASVConfig a1 = new ASVConfig(coords);
+		ASVConfig a2 = a.moveASVsAlong(a1, new Node(0.5,0.1), new Node(0.5,0.1));
+		System.out.println(a1);
+		System.out.println(a2);
 		
 		
 		visualHelper.repaint();
