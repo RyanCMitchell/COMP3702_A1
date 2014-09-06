@@ -4,9 +4,9 @@ package visualDebugger;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Set;
+//import java.util.Arrays;
+//import java.util.Iterator;
+//import java.util.Set;
 import java.util.List;
 
 import problem.ASVConfig;
@@ -46,7 +46,7 @@ public class VisualHelperTester {
 		
 		List<List<Point2D.Double>> edges = a.createPRM(n1,n2,5000);
 		ArrayList<Node> path = a.AStar(n1, n2);
-		ArrayList<Point2D.Double> corners = a.findPathCorners(path);
+		//ArrayList<Point2D.Double> corners = a.findPathCorners(path);
 		
 		VisualHelper visualHelper = new VisualHelper();		
 		

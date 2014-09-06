@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
  */
 public class ASVConfig {
 	/** The position of each ASV */
-	private List<Point2D> asvPositions = new ArrayList<Point2D>();
+	private List<Point2D.Double> asvPositions = new ArrayList<Point2D.Double>();
 
 	/**
 	 * Constructor. Takes an array of 2n x and y coordinates, where n is the
@@ -28,10 +28,6 @@ public class ASVConfig {
 			asvPositions.add(new Point2D.Double(coords[i * 2],
 					coords[i * 2 + 1]));
 		}
-	}
-	
-	public ASVConfig(List<Point2D> coords) {
-		asvPositions = coords;
 	}
 
 	/**
@@ -130,7 +126,7 @@ public class ASVConfig {
 	 *            the number of the ASV.
 	 * @return the position of the ASV with the given number.
 	 */
-	public Point2D getPosition(int asvNo) {
+	public Point2D.Double getPosition(int asvNo) {
 		return asvPositions.get(asvNo);
 	}
 
@@ -148,7 +144,7 @@ public class ASVConfig {
 	 *
 	 * @return the positions of all the ASVs, in order.
 	 */
-	public List<Point2D> getASVPositions() {
-		return new ArrayList<Point2D>(asvPositions);
+	public List<Point2D.Double> getASVPositions() {
+		return new ArrayList<Point2D.Double>(asvPositions);
 	}
 }
