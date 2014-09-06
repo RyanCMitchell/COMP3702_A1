@@ -37,7 +37,7 @@ public class Alistair {
 		try {
 			ps.loadProblem("src/testcases/7ASV.txt");
 		} catch (IOException e) {
-			System.err.println("File cannot be found (IOException): "
+			System.out.println("File cannot be found (IOException): "
 					+ e.getMessage());
 		}
 

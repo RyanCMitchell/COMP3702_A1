@@ -13,21 +13,21 @@ import problem.ProblemSpec;
 
 public class CreatePRM {
 
-	public ProblemSpec ps;
+	private ProblemSpec ps = new ProblemSpec();
+	private HashMap<Node, HashMap<Node, Double>> map;
+	private Random generator = new Random();
 
 	public List<List<Point2D.Double>> createPRM(Node start, Node end, int N) {
 		double maxEdgeDistance = 0.025;
 
-		HashMap<Node, HashMap<Node, Double>> map = new HashMap<Node, HashMap<Node, Double>>();
-
-		Random generator = new Random();
-		ps = new ProblemSpec();
+		map = new HashMap<Node, HashMap<Node, Double>>();
 
 		try {
-			ps.loadProblem("src/testcases/7ASV.txt");
+			ps.loadProblem("src/testcases/7ASV.txt"); // change to take an input
 		} catch (IOException e) {
-			System.err.println("File cannot be found (IOException): "
+			System.out.println("File cannot be found (IOException): "
 					+ e.getMessage());
+			System.exit(1);
 		}
 
 		map.put(start, new HashMap<Node, Double>());
