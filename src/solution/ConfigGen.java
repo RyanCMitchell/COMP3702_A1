@@ -19,6 +19,7 @@ public class ConfigGen {
 
 	private int numSamples = 1000;
 	private List<ASVConfig> configs = new ArrayList<ASVConfig>();
+	private List<ASVConfig> configsCSpace = new ArrayList<ASVConfig>();
 	private Random rndGen = new Random(); // Random number generator
 	private ProblemSpec ps = new ProblemSpec();
 
@@ -35,11 +36,11 @@ public class ConfigGen {
 		int j = 0;
 		double randVal;
 		double[] coords, coordsCFG;
-		ASVConfig cfg, cfgTemp;
+		ASVConfig cfg, cfgCSpace;
 		Tester tester = new Tester();// tester.DEFAULT_MAX_ERROR);
 		while (i < numSamples) {
 			coords = new double[2 * numASV];
-			coordsCFG = new double[2 * numASV];
+			coordsCFG = new double[numASV + 1];
 			coords[0] = node1.getX();
 			coords[1] = node1.getY();
 			coordsCFG[0] = node1.getX();
@@ -51,10 +52,12 @@ public class ConfigGen {
 						* Math.cos(randVal * 2 * Math.PI);
 				coords[2 * j + 1] = coords[2 * j - 1] + BOOM_LENGTH
 						* Math.sin(randVal * 2 * Math.PI);				
+				coordsCFG[j+1] = randVal*2*Math.PI;
 				j++;
 			}
 
 			cfg = new ASVConfig(coords);
+			cfgCSpace = new ASVConfig(coordsCFG);
 
 			//Test Configuration Validity
 			if (tester.hasValidBoomLengths(cfg) 
@@ -63,6 +66,7 @@ public class ConfigGen {
 					&& tester.isConvex(cfg)
 					&& !tester.hasCollision(cfg, this.ps.getObstacles())) {
 				configs.add(cfg);
+				configsCSpace.add(cfgCSpace);
 				System.out.println("ADDED CONFIG: " + (i + 1) + "/"
 						+ numSamples);
 				i++;
@@ -75,6 +79,10 @@ public class ConfigGen {
 		return configs;
 	}
 
+	public List<ASVConfig> getCSpaceConfigs() {
+		return configsCSpace;
+	}	
+	
 	/**
 	 * @param args
 	 */

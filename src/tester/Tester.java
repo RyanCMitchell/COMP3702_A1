@@ -248,6 +248,7 @@ public class Tester {
 			Point2D.Double p0 = points.get(i - 1);
 			Point2D.Double p1 = points.get(i);
 			double boomLength = p0.distance(p1);
+			//System.out.println(boomLength);
 			if (boomLength < MIN_BOOM_LENGTH - maxError) {
 				return false;
 			} else if (boomLength > MAX_BOOM_LENGTH + maxError) {

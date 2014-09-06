@@ -29,10 +29,13 @@ public class ASVConfig {
 					coords[i * 2 + 1]));
 		}
 	}
+<<<<<<< HEAD
 
 	public ASVConfig(List<Point2D.Double> coords) {
 		asvPositions = coords;
 	}
+=======
+>>>>>>> 97dcfba117ab0c9e875f46d29474e97d780d9f0d
 
 	/**
 	 * Constructs an ASVConfig from a space-separated string of x- and y-
