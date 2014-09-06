@@ -203,11 +203,11 @@ public class Alistair {
 			Node direction1) {
 		double theta = 0;
 
-		Point2D p0 = conf.getPosition(0);
+		Point2D.Double p0 = conf.getPosition(0);
 		double angle0 = Math.atan2(direction0.getY() - p0.getY(),
 				direction0.getX() - p0.getX());
 
-		Point2D p1 = conf.getASVPositions().get(
+		Point2D.Double p1 = conf.getASVPositions().get(
 				conf.getASVPositions().size() - 1);
 		double angle1 = Math.atan2(direction1.getY() - p1.getY(),
 				direction1.getX() - p1.getX());
@@ -217,8 +217,8 @@ public class Alistair {
 		double m0 = Math.tan(angle0 - Math.PI / 2);
 		double m1 = Math.tan(angle1 - Math.PI / 2);
 		if (m0 == m1) {
-			List<Point2D> list1 = new ArrayList<Point2D>();
-			for (Point2D point : conf.getASVPositions()) {
+			List<Point2D.Double> list1 = new ArrayList<Point2D.Double>();
+			for (Point2D.Double point : conf.getASVPositions()) {
 				double newx = point.getX() + 0.001 * Math.cos(angle0);
 				double newy = point.getY() + 0.001 * Math.sin(angle0);
 				list1.add(new Point2D.Double(newx, newy));
@@ -235,8 +235,8 @@ public class Alistair {
 			theta = (0.001 / (p1.distance(centreX, centreY))) * 0.9;
 		}
 
-		List<Point2D> list1 = new ArrayList<Point2D>();
-		for (Point2D point : conf.getASVPositions()) {
+		List<Point2D.Double> list1 = new ArrayList<Point2D.Double>();
+		for (Point2D.Double point : conf.getASVPositions()) {
 			double newx = centreX + (point.getX() - centreX) * Math.cos(theta)
 					- (point.getY() - centreY) * Math.sin(theta);
 			double newy = centreY + (point.getX() - centreX) * Math.sin(theta)

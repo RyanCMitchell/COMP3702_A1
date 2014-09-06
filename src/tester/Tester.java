@@ -4,9 +4,9 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 
 import problem.ASVConfig;
 import problem.Obstacle;
@@ -243,10 +243,10 @@ public class Tester {
 	 * @return whether the booms in the given configuration have valid lengths.
 	 */
 	public boolean hasValidBoomLengths(ASVConfig cfg) {
-		List<Point2D> points = cfg.getASVPositions();
+		List<Point2D.Double> points = cfg.getASVPositions();
 		for (int i = 1; i < points.size(); i++) {
-			Point2D p0 = points.get(i - 1);
-			Point2D p1 = points.get(i);
+			Point2D.Double p0 = points.get(i - 1);
+			Point2D.Double p1 = points.get(i);
 			double boomLength = p0.distance(p1);
 			if (boomLength < MIN_BOOM_LENGTH - maxError) {
 				return false;
@@ -320,17 +320,17 @@ public class Tester {
 	 * @return whether the given configuration is convex.
 	 */
 	public boolean isConvex(ASVConfig cfg) {
-		List<Point2D> points = cfg.getASVPositions();
+		List<Point2D.Double> points = cfg.getASVPositions();
 		points.add(points.get(0));
 		points.add(points.get(1));
 
 		double requiredSign = 0;
 		double totalTurned = 0;
-		Point2D p0 = points.get(0);
-		Point2D p1 = points.get(1);
+		Point2D.Double p0 = points.get(0);
+		Point2D.Double p1 = points.get(1);
 		double angle = Math.atan2(p1.getY() - p0.getY(), p1.getX() - p0.getX());
 		for (int i = 2; i < points.size(); i++) {
-			Point2D p2 = points.get(i);
+			Point2D.Double p2 = points.get(i);
 			double nextAngle = Math.atan2(p2.getY() - p1.getY(),
 					p2.getX() - p1.getX());
 			double turningAngle = normaliseAngle(nextAngle - angle);
@@ -412,7 +412,7 @@ public class Tester {
 	 */
 	public boolean hasEnoughArea(ASVConfig cfg) {
 		double total = 0;
-		List<Point2D> points = cfg.getASVPositions();
+		List<Point2D.Double> points = cfg.getASVPositions();
 		points.add(points.get(0));
 		points.add(points.get(1));
 		for (int i = 1; i < points.size() - 1; i++) {
@@ -468,7 +468,7 @@ public class Tester {
 	 * @return whether the given configuration fits wholly within the bounds.
 	 */
 	public boolean fitsBounds(ASVConfig cfg) {
-		for (Point2D p : cfg.getASVPositions()) {
+		for (Point2D.Double p : cfg.getASVPositions()) {
 			if (!lenientBounds.contains(p)) {
 				return false;
 			}
@@ -545,7 +545,7 @@ public class Tester {
 	 */
 	public boolean hasCollision(ASVConfig cfg, Obstacle o) {
 		Rectangle2D lenientRect = grow(o.getRect(), -maxError);
-		List<Point2D> points = cfg.getASVPositions();
+		List<Point2D.Double> points = cfg.getASVPositions();
 		for (int i = 1; i < points.size(); i++) {
 			if (new Line2D.Double(points.get(i - 1), points.get(i))
 					.intersects(lenientRect)) {
