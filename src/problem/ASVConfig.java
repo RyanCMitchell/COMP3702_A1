@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class ASVConfig {
 	/** The position of each ASV */
 	private List<Point2D.Double> asvPositions = new ArrayList<Point2D.Double>();
+	private static final double BOOM_LENGTH = 0.05;
 
 	/**
 	 * Constructor. Takes an array of 2n x and y coordinates, where n is the
@@ -29,13 +30,27 @@ public class ASVConfig {
 					coords[i * 2 + 1]));
 		}
 	}
-<<<<<<< HEAD
 
 	public ASVConfig(List<Point2D.Double> coords) {
 		asvPositions = coords;
 	}
-=======
->>>>>>> 97dcfba117ab0c9e875f46d29474e97d780d9f0d
+
+	public ASVConfig(boolean xyMode, double[] coords) {
+		if (xyMode) {
+			for (int i = 0; i < coords.length / 2; i++) {
+				asvPositions.add(new Point2D.Double(coords[i * 2],
+						coords[i * 2 + 1]));
+			}
+		} else { // angle based mode
+			asvPositions.add(new Point2D.Double(coords[0], coords[1]));
+			for (int i = 2; i < coords.length; i++) {
+				asvPositions.add(new Point2D.Double(asvPositions.get(i - 2)
+						.getX() + BOOM_LENGTH * Math.cos(coords[i]),
+						asvPositions.get(i - 2).getY() + BOOM_LENGTH
+								* Math.sin(coords[i])));
+			}
+		}
+	}
 
 	/**
 	 * Constructs an ASVConfig from a space-separated string of x- and y-
