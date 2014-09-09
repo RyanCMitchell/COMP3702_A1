@@ -144,7 +144,7 @@ public class VisualisationPanel extends JComponent {
 		}
 		Path2D.Float path = new Path2D.Float();
 
-		List<Point2D> points = s.getASVPositions();
+		List<Point2D.Double> points = s.getASVPositions();
 		Point2D p = points.get(0);
 		path.moveTo(p.getX(), p.getY());
 		for (int i = 1; i < points.size(); i++) {

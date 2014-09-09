@@ -243,11 +243,12 @@ public class Tester {
 	 * @return whether the booms in the given configuration have valid lengths.
 	 */
 	public boolean hasValidBoomLengths(ASVConfig cfg) {
-		List<Point2D> points = cfg.getASVPositions();
+		List<Point2D.Double> points = cfg.getASVPositions();
 		for (int i = 1; i < points.size(); i++) {
 			Point2D p0 = points.get(i - 1);
 			Point2D p1 = points.get(i);
 			double boomLength = p0.distance(p1);
+			//System.out.println(boomLength);
 			if (boomLength < MIN_BOOM_LENGTH - maxError) {
 				return false;
 			} else if (boomLength > MAX_BOOM_LENGTH + maxError) {
@@ -320,7 +321,7 @@ public class Tester {
 	 * @return whether the given configuration is convex.
 	 */
 	public boolean isConvex(ASVConfig cfg) {
-		List<Point2D> points = cfg.getASVPositions();
+		List<Point2D.Double> points = cfg.getASVPositions();
 		points.add(points.get(0));
 		points.add(points.get(1));
 
@@ -338,6 +339,7 @@ public class Tester {
 			if (turningAngle == Math.PI) {
 				return false;
 			}
+			
 
 			totalTurned += Math.abs(turningAngle);
 			if (totalTurned > 3 * Math.PI) {
@@ -412,7 +414,7 @@ public class Tester {
 	 */
 	public boolean hasEnoughArea(ASVConfig cfg) {
 		double total = 0;
-		List<Point2D> points = cfg.getASVPositions();
+		List<Point2D.Double> points = cfg.getASVPositions();
 		points.add(points.get(0));
 		points.add(points.get(1));
 		for (int i = 1; i < points.size() - 1; i++) {
@@ -545,7 +547,7 @@ public class Tester {
 	 */
 	public boolean hasCollision(ASVConfig cfg, Obstacle o) {
 		Rectangle2D lenientRect = grow(o.getRect(), -maxError);
-		List<Point2D> points = cfg.getASVPositions();
+		List<Point2D.Double> points = cfg.getASVPositions();
 		for (int i = 1; i < points.size(); i++) {
 			if (new Line2D.Double(points.get(i - 1), points.get(i))
 					.intersects(lenientRect)) {

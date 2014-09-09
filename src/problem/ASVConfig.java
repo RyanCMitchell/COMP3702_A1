@@ -13,8 +13,10 @@ import java.awt.geom.Point2D;
  * @author lackofcheese
  */
 public class ASVConfig {
+	private static final double BOOM_LENGTH = 0.05;
+
 	/** The position of each ASV */
-	private List<Point2D> asvPositions = new ArrayList<Point2D>();
+	private List<Point2D.Double> asvPositions = new ArrayList<Point2D.Double>();
 
 	/**
 	 * Constructor. Takes an array of 2n x and y coordinates, where n is the
@@ -28,10 +30,6 @@ public class ASVConfig {
 			asvPositions.add(new Point2D.Double(coords[i * 2],
 					coords[i * 2 + 1]));
 		}
-	}
-	
-	public ASVConfig(List<Point2D> coords) {
-		asvPositions = coords;
 	}
 
 	/**
@@ -51,6 +49,39 @@ public class ASVConfig {
 		}
 		s.close();
 	}
+	
+	
+	/**
+	 * Constructor. Takes a boolean xy. 
+	 * If xy is true: takes an array of 2n x and y coordinates, where n is the
+	 * number of ASVs.
+	 * If xy is false: takes an array of [x,y,theta1,theta2,theta3,...] values where thetai is
+	 * the angle of the ASV relative to the previous, and x,y are the coordinates of the
+	 * first ASV.
+	 *
+	 * @param xy
+	 * 			operate in xy mode or xytheta mode
+	 * @param coords
+	 *            xy==true: the x- and y-coordinates of the ASVs.\
+	 *            xy==false: [x,y,theta1,theta2,theta3,...] values
+	 */
+
+	public ASVConfig(boolean xyMode, double[] coords) {
+		if (xyMode){ //XY-based
+			for (int i = 0; i < coords.length / 2; i++) {
+				asvPositions.add(new Point2D.Double(coords[i * 2],
+						coords[i * 2 + 1]));
+			}
+		} else {    //Angle-based
+			asvPositions.add(new Point2D.Double(coords[0],coords[1])); //Add initial point
+			for (int i = 2; i < coords.length; i++) { //Add angled points
+				asvPositions.add(new Point2D.Double(asvPositions.get(i-2).getX() 
+						+ BOOM_LENGTH * Math.cos(coords[i]),
+						asvPositions.get(i-2).getY() + BOOM_LENGTH * Math.sin(coords[i])));
+			}
+		}
+	}
+	
 
 	/**
 	 * Copy constructor.
@@ -130,7 +161,7 @@ public class ASVConfig {
 	 *            the number of the ASV.
 	 * @return the position of the ASV with the given number.
 	 */
-	public Point2D getPosition(int asvNo) {
+	public Point2D.Double getPosition(int asvNo) {
 		return asvPositions.get(asvNo);
 	}
 
@@ -148,7 +179,7 @@ public class ASVConfig {
 	 *
 	 * @return the positions of all the ASVs, in order.
 	 */
-	public List<Point2D> getASVPositions() {
-		return new ArrayList<Point2D>(asvPositions);
+	public List<Point2D.Double> getASVPositions() {
+		return new ArrayList<Point2D.Double>(asvPositions);
 	}
 }
